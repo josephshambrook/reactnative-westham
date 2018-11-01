@@ -1,35 +1,75 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar, SectionList, View, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import players from './../data/players';
+import Theme from './../theme';
 import Type from './../components/Type';
+
+const SectionHeader = (props) => {
+  const {title} = props;
+  return (
+    <View style={styles.sectionHeader}>
+      <Type variant="h4" style={{color: '#fff'}}>{title}</Type>
+    </View>
+  )
+}
+
+const SectionItem = (props) => {
+  const {number, name} = props;
+  return (
+    <View style={styles.sectionItem}>
+      <Type>{number}. {name}</Type>
+    </View>
+  );
+}
 
 class Players extends Component {
   static navigationOptions = {
-    title: 'Players',
+    ...Theme.subPageHeader,
+    headerTitle: 'Players',
   };
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <StatusBar
-          barStyle="dark-content"
-        />
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <StatusBar
+            barStyle="dark-content"
+          />
 
-        <Type variant="h1">Hello Players</Type>
-        <Type variant="h2">Hello Players</Type>
-        <Type variant="h3">Hello Players</Type>
-        <Type variant="h4">Hello Players</Type>
-        <Type variant="h5">Hello Players</Type>
-        <Type variant="paragraph">Hello Players</Type>
-        <Type variant="small">Hello Players</Type>
-      </ScrollView>
+          <SectionList
+            renderItem={({item, index}) => <SectionItem {...item} key={index} />}
+            renderSectionHeader={({section: {title}}) => <SectionHeader title={title} />}
+            sections={players}
+            keyExtractor={(item, index) => item + index}
+            ItemSeparatorComponent={(sectionId, rowId) => <View key={rowId} style={styles.sectionSeparator} />}
+            style={styles.section}
+          />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1
+  },
   container: {
-    flex: 1,
+    flex: 1
+  },
+  section: {
+  },
+  sectionSeparator: {
+    borderColor: Theme.colorGrey400,
+    borderStyle: 'solid',
+    borderWidth: StyleSheet.hairlineWidth
+  },
+  sectionHeader: {
+    backgroundColor: Theme.colorPrimary,
+    padding: 10
+  },
+  sectionItem: {
     padding: 10
   }
 });

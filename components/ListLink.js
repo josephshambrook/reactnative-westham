@@ -5,27 +5,49 @@ import {
   TouchableNativeFeedback,
   TouchableHighlight,
   Text,
-  View
+  View,
+  StyleSheet
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import ListItem from './ListItem';
+import Theme from './../theme';
 
 const SmartButton = ({children, ...props}) => {
   return Platform.OS === 'android' ? (
-    <TouchableNativeFeedback {...props} background={TouchableNativeFeedback.SelectableBackground()}>
-      <View><ListItem>{children}</ListItem></View>
+    <TouchableNativeFeedback
+      background={
+        Platform.Version >= 21 ?
+          TouchableNativeFeedback.Ripple(Theme.colorPrimary, false) :
+          TouchableNativeFeedback.SelectableBackground()
+      }
+      {...props}>
+      {children}
     </TouchableNativeFeedback>
   ) : (
-    <TouchableHighlight {...props}>{children}</TouchableHighlight>
+    <TouchableHighlight underlayColor={Theme.colorPrimary} {...props}>{children}</TouchableHighlight>
   )
 }
 
 const ListLink = ({to, navigation}) => {
   return (
     <SmartButton onPress={() => navigation.navigate(to)}>
-      <ListItem>Navigate to {to}</ListItem>
+      <View style={styles.link}>
+        <ListItem style={styles.linkItem}>{to}</ListItem>
+        <FontAwesome style={styles.linkIcon} name="chevron-right" size={18} color="black" />
+      </View>
     </SmartButton>
   )
 }
+
+const styles = StyleSheet.create({
+  link: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
+});
  
 export default withNavigation(ListLink);

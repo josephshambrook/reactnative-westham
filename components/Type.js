@@ -1,47 +1,61 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Theme from './../theme';
 
-const types = ['paragraph', 'h1', 'h2', 'h3', 'h4', 'h5', 'small'];
+const types = ['normal', 'paragraph', 'h1', 'h2', 'h3', 'h4', 'h5', 'small'];
 
-const Type = ({variant = types[0], ...attrs}) => {
+const Type = ({variant = types[0], style = {}, ...attrs}) => {
   if (types.indexOf(variant) < 0) {
     variant = types[0];
   }
 
-  return <Text style={styles[variant]} {...attrs}>{attrs.children}</Text>
+  const mergedStyles = [
+    styles[variant],
+    style
+  ];
+
+  return <Text style={mergedStyles} {...attrs}>{attrs.children}</Text>
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  normal: {
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.paragraph
+  },
   paragraph: {
-    fontSize: Theme.fontSizeDefault
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.paragraph,
+    marginBottom: 8
   },
   h1: {
-    fontSize: Theme.fontSizeDefault * 3.998,
-    fontWeight: 'bold'
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.h1,
+    fontWeight: 'bold',
+    lineHeight: (Theme.fontSizeDefault * Theme.typeScale.h1) * 1.2
   },
   h2: {
-    fontSize: Theme.fontSizeDefault * 2.827,
-    fontWeight: 'bold'
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.h2,
+    fontWeight: 'bold',
+    lineHeight: (Theme.fontSizeDefault * Theme.typeScale.h2) * 1.2
   },
   h3: {
-    fontSize: Theme.fontSizeDefault * 1.999,
-    fontWeight: 'bold'
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.h3,
+    fontWeight: 'bold',
+    lineHeight: (Theme.fontSizeDefault * Theme.typeScale.h3) * 1.2
   },
   h4: {
-    fontSize: Theme.fontSizeDefault * 1.414,
-    fontWeight: 'bold'
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.h4,
+    fontWeight: 'bold',
+    lineHeight: (Theme.fontSizeDefault * Theme.typeScale.h4) * 1.2
   },
   h5: {
-    fontSize: Theme.fontSizeDefault,
-    fontWeight: 'bold'
+    fontSize: Theme.fontSizeDefault * Theme.typeScale.h5,
+    fontWeight: 'bold',
+    lineHeight: (Theme.fontSizeDefault * Theme.typeScale.h5) * 1.2
   },
   small: {
     fontSize: Theme.fontSizeDefault * 0.707
   }
-}
+});
 
 Type.propTypes = {
   variant: PropTypes.oneOf(types)

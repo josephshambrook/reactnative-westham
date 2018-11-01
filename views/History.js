@@ -14,7 +14,7 @@ class History extends Component {
     return (
       <React.Fragment>
         <StatusBar
-          backgroundColor={Theme.colorWestHamSecondary}
+          backgroundColor={Theme.colorSecondary}
           barStyle="dark-content"
         />
         <ScrollView contentContainerStyle={styles.container}>

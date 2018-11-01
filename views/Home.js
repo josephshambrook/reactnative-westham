@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { 
-  StyleSheet, 
-  Button, 
-  View, 
-  SafeAreaView, 
+  StyleSheet,
+  View,
+  SafeAreaView,
   StatusBar,
   FlatList
 } from 'react-native';
@@ -27,20 +26,25 @@ const navigationLinks = [
     key: 'typetest',
     title: 'Type Component Test page',
     link: 'TypeTest'
+  },
+  {
+    key: 'website',
+    title: 'View West Ham website',
+    link: 'Website'
   }
 ];
 
 class Home extends Component {
   static navigationOptions = {
     ...Theme.mainPageHeader,
-    title: 'Home'
+    headerTitle: 'Home'
   };
 
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar
-          backgroundColor={Theme.colorWestHamPrimary}
+          backgroundColor={Theme.colorPrimary}
           barStyle="light-content"
         />
         <ScrollView style={styles.container}>
@@ -49,10 +53,6 @@ class Home extends Component {
           </View>
 
           <View style={styles.list}>
-            <Button
-              title="Go to History"
-              onPress={() => this.props.navigation.navigate('History')}
-            />
             <FlatList
               data={navigationLinks}
               renderItem={({item}) => <ListLink to={item.link}>{item.title}</ListLink>}
@@ -80,13 +80,15 @@ const styles = StyleSheet.create({
   separator: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: Theme.colorGrey500,
+    backgroundColor: Theme.colorGrey700,
   },
   list: {
-    borderColor: Theme.colorGrey500,
+    borderColor: Theme.colorGrey700,
+    borderRadius: 10,
     borderStyle: 'solid',
-    borderWidth: 1,
-    margin: 10
+    borderWidth: StyleSheet.hairlineWidth,
+    margin: 10,
+    overflow: 'hidden'
   }
 });
 
